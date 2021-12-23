@@ -80,4 +80,14 @@ public class AddressController {
 		}
 		return addressMapper.addressToDto(updateAddress);
 	}
+
+	@PostMapping("/search")
+	public List<AddressDto> searchAddress(@RequestBody AddressDto addressDto) {
+		if (addressDto.getCountry() == 0 && addressDto.getCity().isEmpty() && addressDto.getStreet().isEmpty()
+				&& addressDto.getZipCode() == 0) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+		}
+		Address address = addressMapper.dtoToAddress(addressDto);
+		return addressMapper.addressToDtos(addressService.findAddressByExample(address));
+	}
 }
