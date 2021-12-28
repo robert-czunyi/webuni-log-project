@@ -13,15 +13,15 @@ public class Section {
 
 	@Id
 	@GeneratedValue
-	private Long id;
+	private Long sectionId;
 
 	private String fromMileStone;
 	private String toMileStone;
-	private int number;
+	private Long number;
 	
 	@OneToMany(mappedBy = "section")
 	private List<MileStone> mileStones;
-	
+
 	@ManyToOne
 	private TransportPlan transportPlan;
 
@@ -29,20 +29,26 @@ public class Section {
 		super();
 	}
 
-	public Section(Long id, String fromMileStone, String toMileStone, int number) {
+	public Section(Long sectionId, Long number) {
 		super();
-		this.id = id;
+		this.sectionId = sectionId;
+		this.number = number;
+	}
+	
+	public Section(Long sectionId, String fromMileStone, String toMileStone, Long number) {
+		super();
+		this.sectionId = sectionId;
 		this.fromMileStone = fromMileStone;
 		this.toMileStone = toMileStone;
 		this.number = number;
 	}
 
-	public Long getId() {
-		return id;
+	public Long getSectionId() {
+		return sectionId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setSectionId(Long sectionId) {
+		this.sectionId = sectionId;
 	}
 
 	public String getFromMileStone() {
@@ -61,11 +67,27 @@ public class Section {
 		this.toMileStone = toMileStone;
 	}
 
-	public int getNumber() {
+	public long getNumber() {
 		return number;
 	}
 
-	public void setNumber(int number) {
+	public void setNumber(Long number) {
 		this.number = number;
+	}
+
+	public TransportPlan getTransportPlan() {
+		return transportPlan;
+	}
+
+	public void setTransportPlan(TransportPlan transportPlan) {
+		this.transportPlan = transportPlan;
+	}
+
+	public List<MileStone> getMileStones() {
+		return mileStones;
+	}
+
+	public void setMileStones(List<MileStone> mileStones) {
+		this.mileStones = mileStones;
 	}
 }

@@ -1,57 +1,63 @@
 package hu.webuni.log.czunyi.dto;
 
-//@Entity
+import java.util.List;
+
+import hu.webuni.log.czunyi.model.MileStone;
+import hu.webuni.log.czunyi.model.TransportPlan;
+
 public class SectionDto {
 
-	//@Id
-		//@GeneratedValue
-		private Long id;
+	private Long sectionId;
 
-		private String fromMileStone;
-		private String toMileStone;
-		private int number;
+	private String fromMileStone;
+	private String toMileStone;
+	private Long number;
+	
+	private List<MileStone> mileStones;
+	
+	private TransportPlan transportPlan;
 
-		public SectionDto() {
-			super();
-		}
+	public SectionDto() {
+		super();
+	}
 
-		public SectionDto(Long id, String fromMileStone, String toMileStone, int number) {
-			super();
-			this.id = id;
-			this.fromMileStone = fromMileStone;
-			this.toMileStone = toMileStone;
-			this.number = number;
-		}
+	public SectionDto(Long sectionId, String fromMileStone, String toMileStone, Long number) {
+		super();
+		this.sectionId = sectionId;
+		this.fromMileStone = fromMileStone;
+		this.toMileStone = toMileStone;
+		this.number = number;
+	}
 
-		public Long getId() {
-			return id;
-		}
+	public Long getSectionId() {
+		return sectionId;
+	}
 
-		public void setId(Long id) {
-			this.id = id;
-		}
+	public void setSectionId(Long sectionId) {
+		this.sectionId = sectionId;
+	}
 
-		public String getFromMileStone() {
-			return fromMileStone;
-		}
+	public long getNumber() {
+		return number;
+	}
+	
+	public void setNumber(Long number) {
+		this.number = number;
+	}
 
-		public void setFromMileStone(String fromMileStone) {
-			this.fromMileStone = fromMileStone;
-		}
+	public String getFromMileStone() {
+		return fromMileStone;
+	}
 
-		public String getToMileStone() {
-			return toMileStone;
-		}
+	public void setFromMileStone(String fromMileStone) {
+		this.fromMileStone = fromMileStone;
+	}
 
-		public void setToMileStone(String toMileStone) {
-			this.toMileStone = toMileStone;
-		}
+	public String getToMileStone() {
+		return toMileStone;
+	}
 
-		public int getNumber() {
-			return number;
-		}
-
-		public void setNumber(int number) {
-			this.number = number;
-		}
+	public void setToMileStone(String toMileStone) {
+		this.toMileStone = toMileStone;
+	}
 }

@@ -2,11 +2,8 @@ package hu.webuni.log.czunyi.dto;
 
 import java.util.List;
 
-//@Entity
 public class TransportPlanDto {
 
-	//@Id
-		//@GeneratedValue
 		private Long id;
 
 		private int revenue;

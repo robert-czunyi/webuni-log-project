@@ -18,6 +18,8 @@ public class Address {
 	private int number;
 	private double latitude;
 	private double longitude;
+	
+	//private MileStone mileStone;
 
 	public Address() {
 		super();

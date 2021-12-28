@@ -7,7 +7,7 @@ import org.mapstruct.Mapper;
 import hu.webuni.log.czunyi.dto.SectionDto;
 import hu.webuni.log.czunyi.model.Section;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface SectionMapper {
 
 	SectionDto sectionToDto(Section section);

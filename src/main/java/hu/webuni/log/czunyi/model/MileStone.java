@@ -13,7 +13,7 @@ public class MileStone {
 
 	@Id
 	@GeneratedValue
-	private Long id;
+	private Long mileStoneId;
 
 	private LocalDateTime plannedTime;
 
@@ -27,18 +27,18 @@ public class MileStone {
 		super();
 	}
 
-	public MileStone(Long id, LocalDateTime plannedTime) {
+	public MileStone(Long mileStoneId, LocalDateTime plannedTime) {
 		super();
-		this.id = id;
+		this.mileStoneId = mileStoneId;
 		this.plannedTime = plannedTime;
 	}
 
-	public Long getId() {
-		return id;
+	public Long getMileStoneId() {
+		return mileStoneId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setMileStoneId(Long mileStoneId) {
+		this.mileStoneId = mileStoneId;
 	}
 
 	public LocalDateTime getPlannedTime() {
@@ -55,5 +55,13 @@ public class MileStone {
 
 	public void setAddress(Address address) {
 		this.address = address;
+	}
+
+	public Section getSection() {
+		return section;
+	}
+
+	public void setSection(Section section) {
+		this.section = section;
 	}
 }

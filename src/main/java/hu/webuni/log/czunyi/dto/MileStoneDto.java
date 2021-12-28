@@ -2,12 +2,9 @@ package hu.webuni.log.czunyi.dto;
 
 import java.time.LocalDateTime;
 
-//@Entity
 public class MileStoneDto {
 
-	//@Id
-		//@GeneratedValue
-		private Long id;
+		private Long mileStoneId;
 
 		private LocalDateTime plannedTime;
 
@@ -17,18 +14,18 @@ public class MileStoneDto {
 			super();
 		}
 
-		public MileStoneDto(Long id, LocalDateTime plannedTime) {
+		public MileStoneDto(Long mileStoneId, LocalDateTime plannedTime) {
 			super();
-			this.id = id;
+			this.mileStoneId = mileStoneId;
 			this.plannedTime = plannedTime;
 		}
 
-		public Long getId() {
-			return id;
+		public Long getMileStoneId() {
+			return mileStoneId;
 		}
 
-		public void setId(Long id) {
-			this.id = id;
+		public void setMileStoneId(Long mileStoneId) {
+			this.mileStoneId = mileStoneId;
 		}
 
 		public LocalDateTime getPlannedTime() {

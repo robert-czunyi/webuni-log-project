@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -67,7 +68,7 @@ public class AddressController {
 	}
 
 	@PutMapping("/{id}")
-	public AddressDto modifyAddress(@PathVariable long id, @RequestBody AddressDto addressDto) {
+	public AddressDto modifyAddress(@PathVariable long id, @RequestBody @Valid AddressDto addressDto) {
 		if (addressDto.getId() != id || addressDto.getCountry() == 0 || addressDto.getCity() == null
 				|| addressDto.getCity().isEmpty() || addressDto.getZipCode() == 0 || addressDto.getStreet() == null
 				|| addressDto.getStreet().isEmpty() || addressDto.getNumber() == 0) {
@@ -82,12 +83,12 @@ public class AddressController {
 	}
 
 	@PostMapping("/search")
-	public List<AddressDto> searchAddress(@RequestBody AddressDto addressDto) {
+	public List<AddressDto> searchAddress(@RequestBody AddressDto addressDto, Pageable page) {
 		if (addressDto.getCountry() == 0 && addressDto.getCity().isEmpty() && addressDto.getStreet().isEmpty()
 				&& addressDto.getZipCode() == 0) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 		Address address = addressMapper.dtoToAddress(addressDto);
-		return addressMapper.addressToDtos(addressService.findAddressByExample(address));
+		return addressMapper.addressToDtos(addressService.findAddressByExample(address, page));
 	}
 }

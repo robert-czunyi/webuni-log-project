@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,7 +45,7 @@ public class AddressService {
 		return addressRepository.save(address);
 	}
 	
-	public List<Address> findAddressByExample(Address address){
+	public List<Address> findAddressByExample(Address address, Pageable page){
 		int country = address.getCountry();
 		String city = address.getCity();
 		String street = address.getStreet();
@@ -67,6 +69,9 @@ public class AddressService {
 			spec = spec.and(AddressSpecifications.hasZipCode(zipCode));
 		}
 		
-		return addressRepository.findAll(spec);
+		Page<Address> addressPage = addressRepository.findAll(spec, page);
+		List<Address> addresses = addressPage.getContent();
+		
+		return addresses;
 	}
 }

@@ -1,5 +1,6 @@
 package hu.webuni.log.czunyi.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -17,16 +18,17 @@ public class TransportPlan {
 	private int revenue;
 
 	@OneToMany(mappedBy = "transportPlan")
-	private List<Section> section;
+	private List<Section> sections;
 
 	public TransportPlan() {
 		super();
 	}
 
-	public TransportPlan(Long id, int revenue) {
+	public TransportPlan(Long id, int revenue, List<Section> sections) {
 		super();
 		this.id = id;
 		this.revenue = revenue;
+		this.sections = sections;
 	}
 
 	public Long getId() {
@@ -44,12 +46,20 @@ public class TransportPlan {
 	public void setRevenue(int revenue) {
 		this.revenue = revenue;
 	}
-
-	public List<Section> getSection() {
-		return section;
+	
+	public List<Section> getSections() {
+		return sections;
 	}
 
-	public void setSection(List<Section> section) {
-		this.section = section;
+	public void setSections(List<Section> sections) {
+		this.sections = sections;
+	}
+
+	public void addSection(Section section) {
+		if (this.sections == null)
+			this.sections = new ArrayList<>();
+
+		this.sections.add(section);
+		section.setTransportPlan(this);
 	}
 }
