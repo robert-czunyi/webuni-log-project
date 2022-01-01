@@ -6,7 +6,7 @@ public class TransportPlanDto {
 
 		private Long id;
 
-		private int revenue;
+		private double revenue;
 
 		private List<SectionDto> section;
 
@@ -14,7 +14,7 @@ public class TransportPlanDto {
 			super();
 		}
 
-		public TransportPlanDto(Long id, int revenue) {
+		public TransportPlanDto(Long id, double revenue) {
 			super();
 			this.id = id;
 			this.revenue = revenue;
@@ -28,11 +28,11 @@ public class TransportPlanDto {
 			this.id = id;
 		}
 
-		public int getRevenue() {
+		public double getRevenue() {
 			return revenue;
 		}
 
-		public void setRevenue(int revenue) {
+		public void setRevenue(double revenue) {
 			this.revenue = revenue;
 		}
 

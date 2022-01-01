@@ -1,7 +1,5 @@
 package hu.webuni.log.czunyi.dto;
 
-import java.util.List;
-
 import hu.webuni.log.czunyi.model.MileStone;
 import hu.webuni.log.czunyi.model.TransportPlan;
 
@@ -9,11 +7,9 @@ public class SectionDto {
 
 	private Long sectionId;
 
-	private String fromMileStone;
-	private String toMileStone;
+	private MileStone fromMileStone;
+	private MileStone toMileStone;
 	private Long number;
-	
-	private List<MileStone> mileStones;
 	
 	private TransportPlan transportPlan;
 
@@ -21,7 +17,7 @@ public class SectionDto {
 		super();
 	}
 
-	public SectionDto(Long sectionId, String fromMileStone, String toMileStone, Long number) {
+	public SectionDto(Long sectionId, MileStone fromMileStone, MileStone toMileStone, Long number) {
 		super();
 		this.sectionId = sectionId;
 		this.fromMileStone = fromMileStone;
@@ -45,19 +41,27 @@ public class SectionDto {
 		this.number = number;
 	}
 
-	public String getFromMileStone() {
+	public MileStone getFromMileStone() {
 		return fromMileStone;
 	}
 
-	public void setFromMileStone(String fromMileStone) {
+	public void setFromMileStone(MileStone fromMileStone) {
 		this.fromMileStone = fromMileStone;
 	}
 
-	public String getToMileStone() {
+	public MileStone getToMileStone() {
 		return toMileStone;
 	}
 
-	public void setToMileStone(String toMileStone) {
+	public void setToMileStone(MileStone toMileStone) {
 		this.toMileStone = toMileStone;
+	}
+	
+	public TransportPlan getTransportPlan() {
+		return transportPlan;
+	}
+
+	public void setTransportPlan(TransportPlan transportPlan) {
+		this.transportPlan = transportPlan;
 	}
 }

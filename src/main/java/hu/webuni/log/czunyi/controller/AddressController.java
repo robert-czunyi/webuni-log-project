@@ -2,9 +2,11 @@ package hu.webuni.log.czunyi.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +28,7 @@ import hu.webuni.log.czunyi.service.AddressService;
 @RestController
 @RequestMapping("/api/addresses")
 public class AddressController {
-
+	
 	@Autowired
 	AddressMapper addressMapper;
 
@@ -83,12 +85,15 @@ public class AddressController {
 	}
 
 	@PostMapping("/search")
-	public List<AddressDto> searchAddress(@RequestBody AddressDto addressDto, Pageable page) {
+	public List<AddressDto> searchAddress(@RequestBody AddressDto addressDto, Pageable page, HttpServletResponse response) {
 		if (addressDto.getCountry() == 0 && addressDto.getCity().isEmpty() && addressDto.getStreet().isEmpty()
 				&& addressDto.getZipCode() == 0) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 		Address address = addressMapper.dtoToAddress(addressDto);
-		return addressMapper.addressToDtos(addressService.findAddressByExample(address, page));
+		Page<Address> addressPage = addressService.findAddressByExample(address, page);
+		response.addHeader("X-Total-Count", String.valueOf(addressPage.getTotalElements()));
+		List<AddressDto> addressDtoList = addressMapper.addressToDtos(addressPage.getContent());
+		return addressDtoList;
 	}
 }

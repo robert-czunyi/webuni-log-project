@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
@@ -12,10 +13,10 @@ import javax.persistence.OneToMany;
 public class TransportPlan {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private int revenue;
+	private double revenue;
 
 	@OneToMany(mappedBy = "transportPlan")
 	private List<Section> sections;
@@ -24,7 +25,7 @@ public class TransportPlan {
 		super();
 	}
 
-	public TransportPlan(Long id, int revenue, List<Section> sections) {
+	public TransportPlan(Long id, double revenue, List<Section> sections) {
 		super();
 		this.id = id;
 		this.revenue = revenue;
@@ -39,11 +40,11 @@ public class TransportPlan {
 		this.id = id;
 	}
 
-	public int getRevenue() {
+	public double getRevenue() {
 		return revenue;
 	}
 
-	public void setRevenue(int revenue) {
+	public void setRevenue(double revenue) {
 		this.revenue = revenue;
 	}
 	

@@ -2,13 +2,14 @@ package hu.webuni.log.czunyi.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
 public class Address {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	private int country;
@@ -18,8 +19,6 @@ public class Address {
 	private int number;
 	private double latitude;
 	private double longitude;
-	
-	//private MileStone mileStone;
 
 	public Address() {
 		super();

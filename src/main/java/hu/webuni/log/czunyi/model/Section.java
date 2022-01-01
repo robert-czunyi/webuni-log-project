@@ -1,27 +1,27 @@
 package hu.webuni.log.czunyi.model;
 
-import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Section {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long sectionId;
 
-	private String fromMileStone;
-	private String toMileStone;
+	@OneToOne
+	private MileStone fromMileStone;
+	
+	@OneToOne
+	private MileStone toMileStone;
+	
 	private Long number;
 	
-	@OneToMany(mappedBy = "section")
-	private List<MileStone> mileStones;
-
 	@ManyToOne
 	private TransportPlan transportPlan;
 
@@ -35,7 +35,7 @@ public class Section {
 		this.number = number;
 	}
 	
-	public Section(Long sectionId, String fromMileStone, String toMileStone, Long number) {
+	public Section(Long sectionId, MileStone fromMileStone, MileStone toMileStone, Long number) {
 		super();
 		this.sectionId = sectionId;
 		this.fromMileStone = fromMileStone;
@@ -51,19 +51,19 @@ public class Section {
 		this.sectionId = sectionId;
 	}
 
-	public String getFromMileStone() {
+	public MileStone getFromMileStone() {
 		return fromMileStone;
 	}
 
-	public void setFromMileStone(String fromMileStone) {
+	public void setFromMileStone(MileStone fromMileStone) {
 		this.fromMileStone = fromMileStone;
 	}
 
-	public String getToMileStone() {
+	public MileStone getToMileStone() {
 		return toMileStone;
 	}
 
-	public void setToMileStone(String toMileStone) {
+	public void setToMileStone(MileStone toMileStone) {
 		this.toMileStone = toMileStone;
 	}
 
@@ -81,13 +81,5 @@ public class Section {
 
 	public void setTransportPlan(TransportPlan transportPlan) {
 		this.transportPlan = transportPlan;
-	}
-
-	public List<MileStone> getMileStones() {
-		return mileStones;
-	}
-
-	public void setMileStones(List<MileStone> mileStones) {
-		this.mileStones = mileStones;
 	}
 }

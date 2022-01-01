@@ -45,7 +45,7 @@ public class AddressService {
 		return addressRepository.save(address);
 	}
 	
-	public List<Address> findAddressByExample(Address address, Pageable page){
+	public Page<Address> findAddressByExample(Address address, Pageable page){
 		int country = address.getCountry();
 		String city = address.getCity();
 		String street = address.getStreet();
@@ -70,8 +70,6 @@ public class AddressService {
 		}
 		
 		Page<Address> addressPage = addressRepository.findAll(spec, page);
-		List<Address> addresses = addressPage.getContent();
-		
-		return addresses;
+		return addressPage;
 	}
 }

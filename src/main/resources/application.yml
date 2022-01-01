@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    password: 1234
+    url: jdbc:postgresql://localhost:5432/log
+    username: postgres
+  jpa:
+    hibernate:
+      ddl-auto: create
+    open-in-view: false
+    show-sql: true
+  mvc:
+    format:
+      date-time: yyyy-MM-dd HH:mm:ss
+  log:
+    delay:
+      limits:
+      30: 5
+      60: 10
+      120: 12
+  

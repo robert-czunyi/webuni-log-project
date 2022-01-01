@@ -12,7 +12,7 @@ public interface SectionMapper {
 
 	SectionDto sectionToDto(Section section);
 
-	Section dtoToSection(SectionDto sectionDto);
+	Section dtoToSection(SectionDto SectionDto);
 
 	List<SectionDto> sectionsToDtos(List<Section> sections);
 

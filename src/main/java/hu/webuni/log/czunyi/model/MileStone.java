@@ -4,25 +4,22 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 
 @Entity
 public class MileStone {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long mileStoneId;
 
 	private LocalDateTime plannedTime;
 
-	@OneToOne
+	@ManyToOne
 	private Address address;
 	
-	@ManyToOne
-	private Section section;
-
 	public MileStone() {
 		super();
 	}
@@ -55,13 +52,5 @@ public class MileStone {
 
 	public void setAddress(Address address) {
 		this.address = address;
-	}
-
-	public Section getSection() {
-		return section;
-	}
-
-	public void setSection(Section section) {
-		this.section = section;
 	}
 }
