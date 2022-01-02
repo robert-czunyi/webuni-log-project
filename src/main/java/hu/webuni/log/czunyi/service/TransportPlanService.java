@@ -49,10 +49,16 @@ public class TransportPlanService {
 		return transportPlanMapper.transportPlanToDto(transportPlan);
 	}
 	
-	@Transactional
 	public double modifyRevenueWithDelay(TransportPlanDelayDto transportPlanDelayDto) {
 		TreeMap<Integer, Double> limits = logConfigProperties.getDelay().getLimits();
 		Entry<Integer, Double> floorEntry = limits.floorEntry(transportPlanDelayDto.getDelayMin());
 		return floorEntry == null ? 0 : floorEntry.getValue();
+	}
+	
+	@Transactional
+	public TransportPlanDto modifyRevenueValue(TransportPlan transportPlan, TransportPlanDelayDto transportPlanDelayDto) {
+		transportPlan.setRevenue((100 - modifyRevenueWithDelay(transportPlanDelayDto)) / 100
+				* transportPlan.getRevenue());
+		return transportPlanMapper.transportPlanToDto(transportPlan);
 	}
 }

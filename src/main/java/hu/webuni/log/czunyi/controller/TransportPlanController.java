@@ -14,14 +14,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import hu.webuni.log.czunyi.dto.SectionDto;
 import hu.webuni.log.czunyi.dto.TransportPlanDelayDto;
 import hu.webuni.log.czunyi.dto.TransportPlanDto;
 import hu.webuni.log.czunyi.mapper.MileStoneMapper;
 import hu.webuni.log.czunyi.mapper.SectionMapper;
 import hu.webuni.log.czunyi.mapper.TransportPlanMapper;
+import hu.webuni.log.czunyi.model.MileStone;
+import hu.webuni.log.czunyi.model.Section;
 import hu.webuni.log.czunyi.model.TransportPlan;
 import hu.webuni.log.czunyi.repository.MileStoneRepository;
+import hu.webuni.log.czunyi.repository.SectionRepository;
 import hu.webuni.log.czunyi.repository.TransportPlanRepository;
 import hu.webuni.log.czunyi.service.TransportPlanService;
 
@@ -47,6 +49,9 @@ public class TransportPlanController {
 	@Autowired
 	SectionMapper sectionMapper;
 
+	@Autowired
+	SectionRepository sectionRepository;
+
 	@GetMapping
 	public List<TransportPlanDto> getAll() {
 		return transportPlanMapper.transportPlansToDtos(transportPlanService.findAll());
@@ -62,30 +67,42 @@ public class TransportPlanController {
 	@PostMapping("/{id}/delay")
 	public TransportPlanDto modifyWithDelay(@PathVariable Long id,
 			@RequestBody TransportPlanDelayDto transportPlanDelayDto) {
-		TransportPlanDto transportPlan = transportPlanMapper
-				.transportPlanToDto(transportPlanRepository.findById(id).get());
+		TransportPlan transportPlan = transportPlanRepository.findById(id)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+		MileStone mileStone = mileStoneRepository.findById(transportPlanDelayDto.getmileStoneId())
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
-		List<SectionDto> sectionDtos = transportPlan.getSection();
-
-		TransportPlanDto transportPlanDto = null;
-		TransportPlanDelayDto transportPlanDelayDtoNext = null;
-		transportPlanDelayDtoNext.setmileStoneId(transportPlanDelayDto.getmileStoneId() + 1);
-		for (SectionDto sectionDto : sectionDtos) {
-			if (sectionDto.getFromMileStone().getMileStoneId() == transportPlanDelayDto.getmileStoneId()
-					|| sectionDto.getToMileStone().getMileStoneId() == transportPlanDelayDto.getmileStoneId()) {
-				transportPlanDto = transportPlanService.delay(id, transportPlanDelayDto);
-				TransportPlanDto transportPlanDtoWithNewRevenue = null;
-				transportPlanDtoWithNewRevenue
-						.setRevenue((100 - transportPlanService.modifyRevenueWithDelay(transportPlanDelayDto))
-								* transportPlanDto.getRevenue());
+		List<Section> sections = transportPlan.getSections();
+		Long sectionId = null;
+		for (Section section : sections) {
+			if (section.getFromMileStone().getMileStoneId() == transportPlanDelayDto.getmileStoneId()
+					|| section.getToMileStone().getMileStoneId() == transportPlanDelayDto.getmileStoneId()) {
+				sectionId = section.getSectionId();
 			}
-
-			if (sectionDto.getFromMileStone().getMileStoneId() == transportPlanDelayDto.getmileStoneId() + 1
-					|| sectionDto.getToMileStone().getMileStoneId() == transportPlanDelayDto.getmileStoneId() + 1) {
-				transportPlanDto = transportPlanService.delay(id, transportPlanDelayDtoNext);
-			}
+		}
+		if (sectionId == null) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
-		return transportPlanDto;
+
+		transportPlan = transportPlanMapper.dtoToTransportPlan(transportPlanService.delay(id, transportPlanDelayDto));
+
+		Long sectionIdNext = null;
+		for (Section section : sections) {
+			if (section.getFromMileStone().getMileStoneId() == (transportPlanDelayDto.getmileStoneId() + 1)
+					|| section.getToMileStone().getMileStoneId() == (transportPlanDelayDto.getmileStoneId()) + 1) {
+				sectionIdNext = section.getSectionId();
+			}
+		}
+
+		transportPlanDelayDto.setmileStoneId(transportPlanDelayDto.getmileStoneId() + 1);
+
+		if (sectionIdNext != null) {
+			transportPlan = transportPlanMapper
+					.dtoToTransportPlan(transportPlanService.delay(id, transportPlanDelayDto));
+		}
+
+		transportPlan = transportPlanMapper.dtoToTransportPlan(transportPlanService.modifyRevenueValue(transportPlan, transportPlanDelayDto));
+
+		return transportPlanMapper.transportPlanToDto(transportPlan);
 	}
 }

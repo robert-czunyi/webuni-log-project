@@ -5,16 +5,15 @@ spring:
     username: postgres
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     open-in-view: false
     show-sql: true
   mvc:
     format:
       date-time: yyyy-MM-dd HH:mm:ss
-  log:
-    delay:
-      limits:
+log:
+  delay:
+    limits:
       30: 5
       60: 10
       120: 12
-  

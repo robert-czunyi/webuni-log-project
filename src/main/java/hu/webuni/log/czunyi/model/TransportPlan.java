@@ -1,9 +1,9 @@
 package hu.webuni.log.czunyi.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,7 +18,7 @@ public class TransportPlan {
 
 	private double revenue;
 
-	@OneToMany(mappedBy = "transportPlan")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "transportPlan")
 	private List<Section> sections;
 
 	public TransportPlan() {
@@ -54,13 +54,5 @@ public class TransportPlan {
 
 	public void setSections(List<Section> sections) {
 		this.sections = sections;
-	}
-
-	public void addSection(Section section) {
-		if (this.sections == null)
-			this.sections = new ArrayList<>();
-
-		this.sections.add(section);
-		section.setTransportPlan(this);
 	}
 }
